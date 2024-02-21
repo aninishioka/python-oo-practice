@@ -1,44 +1,44 @@
 from random import choice
 
 class WordFinder:
-    """Word Finder: finds random words from a dictionary."""
-    #TODO: Filepath!! word_list
-    #TODO: repr
-    def __init__(self, file):
-        """Creates a WordFinder instance"""
-        #TODO: Filepath =>word_list
-        self.file = file
-        self.word_list = []
-        self.create_words_list()
-        print(f"{len(self.word_list)} words read")
+    """Word Finder: finds random words from a dictionary.
+        >>> wordFinder = WordFinder("words.txt")
+        9 words read
 
-    def create_words_list(self):
+        >>> wordFinder.random_word() in set(["# Veggies", "# Fruits", "", "kale", "parsnips", "apple", "mango"])
+        True
+    """
+    def __init__(self, filepath):
+        """Creates a WordFinder instance"""
+        self.words = self.create_words_list(filepath)
+        print(f"{len(self.words)} words read")
+
+    def __repr__(self):
+        """Returns representation of Word Finder instance."""
+        return f"<{self.__class__} len(words)={len(self.words)}>"
+
+    def create_words_list(self, filepath):
         """Creates a word list from each line from the text file."""
-        file = open(self.file)
+        words = []
+        file = open(filepath)
         for line in file:
-            #TODO: string method strip
-            self.word_list.append(line.replace('\n', ''))
+            words.append(line.strip())
         file.close()
+        return words
 
 
     def random_word(self):
         """Returns a random word from the words list."""
-        return choice(self.word_list)
+        return choice(self.words)
 
 
 class SpecialWordFinder(WordFinder):
     """Special Word Finder: finds random words from a dictionary but ignores if
     it starts with # or a space."""
-    def __init__(self, file):
-        """Create a SpecialWordFinder instance"""
-        super().__init__(file)
-    #TODO: just add it to super class do not repeat
-    def create_words_list(self):
+
+    def create_words_list(self, filepath):
         """Creates a word list from each line from the text file if the line
-        does not starts with # or a space."""
-        file = open(self.file)
-        for line in file:
-            if not line.startswith(("#", " ")):
-                self.word_list.append(line.replace('\n', ''))
-        file.close()
+        does not starts with # or is blank."""
+        words = super().create_words_list(filepath)
+        return [word for word in words if not word.startswith('#') and word]
 
