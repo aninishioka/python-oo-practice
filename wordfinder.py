@@ -15,7 +15,7 @@ class WordFinder:
 
     def __repr__(self):
         """Returns representation of Word Finder instance."""
-        return f"<{self.__class__} len(words)={len(self.words)}>"
+        return f"<{self.__class__.__name__} len(words)={len(self.words)}>"
 
     def create_words_list(self, filepath):
         """Creates a word list from each line from the text file."""
